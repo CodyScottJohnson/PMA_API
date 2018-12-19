@@ -1,0 +1,56 @@
+syntax = "proto3";
+package v1;
+
+message Project {
+    int64 id = 1;
+    string company = 2;
+    string background = 3;
+    string image = 4;
+    string title = 5;
+    string description = 6;
+}
+
+message CreateRequest{
+    string api = 1;//API Version
+
+    Project project = 2;
+
+}
+
+message CreateResponse{
+    string api = 1;//API Version
+
+    int64 id = 2;
+
+}
+message ReadRequest{
+    string api = 1;//API Version
+
+    int64 id = 2;
+
+}
+message ReadResponse{
+    string api = 1;//API Version
+
+    Project project = 2;
+
+}
+message ReadAllRequest{
+    string api = 1;//API Version
+}
+message ReadAllResponse{
+    string api = 1;//API Version
+
+    repeated Project projects = 2;
+
+}
+
+service ProjectService {
+    rpc Create(CreateRequest) returns (CreateResponse);
+    
+    // Read todo task
+    rpc Read(ReadRequest) returns (ReadResponse);
+
+    // Read all todo tasks
+    rpc ReadAll(ReadAllRequest) returns (ReadAllResponse);
+}
