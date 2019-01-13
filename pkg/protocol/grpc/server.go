@@ -2,6 +2,7 @@ package grpc
 
 import (
 	"context"
+	"log"
 	"net"
 	"os"
 	"os/signal"
@@ -20,14 +21,16 @@ func RunServer(ctx context.Context, API v1.ProjectServiceServer, port string) er
 
 	//Register Service
 	server := grpc.NewServer()
-	v1.RegisterToDoServiceServer(server, API)
+	//wrappedGrpc := grpcweb.WrapServer(server)
+
+	v1.RegisterProjectServiceServer(server, API)
 
 	//Gracefull Shutdown
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt)
 	go func() {
 		for range c {
-			log.PrintLn("shutting down gRPC server...")
+			log.Println("shutting down gRPC server...")
 
 			server.GracefulStop()
 
